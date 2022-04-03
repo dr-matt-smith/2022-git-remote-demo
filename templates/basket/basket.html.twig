@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>Basket Page</h1><br><br>
+    <h1>Basket</h1>
+    {% set basket = app.session.get('basket') %}
+    {% if basket is null %}
+    <p>
+        you have no products in your basket
+    </p>
+    {% else %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+    {% for product in basket %}
+        <tr>
+            <td>{{ product.id }}</td>
+            <td>{{ product.name }} </td>
+            <td>{{ product.price }}</td>
+            <td>1</td>
+            <td><a href={{ path('delete', {'id': product.id}) }}>Remove Item</a></td>
+        </tr>
+    {% endfor %}
+    </table>
+    {% endif %}
+
+    <br><Br><Br>
+    <a href="{{ path('product_index') }}">
+        Add More items to Cart ?
+    </a>
+    <br>
+    <a href="{{ path('checkout') }}">
+        Checkout
+    </a>
+
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Product index{% endblock %}
+
+{% block body %}
+    {% if is_granted('ROLE_MANAGER') or is_granted('ROLE_ADMIN') %}
+    <h1>Product index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for product in products %}
+            <tr>
+                <td>{{ product.id }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.description }}</td>
+                <td>{{ product.price }}</td>
+                <td>
+                    <a href="{{ path('product_edit', {'id': product.id}) }}">Edit Item</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('product_new') }}">Create new</a>
+    {% endif %}
+
+    {% if is_granted('ROLE_CHEF') %}
+        <h1>Product index</h1>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.description }}</td>
+                    <td>
+                        <a href="{{ path('product_edit', {'id': product.id}) }}">Edit Item</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('product_new') }}">Create new</a>
+    {% endif %}
+
+
+    <div class="container">
+        <h1 class="mt-3 mb-4">Menu</h1>
+        <div class="row">
+            {% for product in products %}
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        {% if product.id == 1 %}
+                            <img src="{{ asset('img/chips.jpg') }}" alt="{{ product.name }}" class="card-img-top">
+                        {% endif %}
+                        {% if product.id != 1 %}
+                            <img src="{{ asset('img/burger.jpg') }}" alt="{{ product.name }}" class="card-img-top">
+                        {% endif %}
+
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">{{ product.description }}</p>
+
+                            <div class="d-flex justify-content-between align-item-center">
+                                    <a href="{{ path('product.detail', {id: product.id}) }}" class="btn btn-dark">
+                                        View details
+                                    </a>
+                                    <span class="h5 mt-auto">€ {{ product.price }} </span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

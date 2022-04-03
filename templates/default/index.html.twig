@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block body %}
+
+    <h1>Home Page</h1>
+    {% if app.user %}
+
+    {% else %}
+        <h1>Welcome to our site<br>
+        Please Register or Log in to order</h1>
+    {% endif %}
+
+
+    {% if is_granted('ROLE_CUSTOMER') %}
+        <h1>Hello Customer</h1>
+    {% endif %}
+    {% if is_granted('ROLE_WAITER') %}
+        <a href="{{ path('table_index') }}">
+            Table booking
+        </a>
+    {% endif %}
+    {% if is_granted('ROLE_CHEF') %}
+        <h1>Hello Chef</h1>
+    {% endif %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <h1>Hello Admin</h1>
+    {% endif %}
+
+{% endblock %}
+
+
+
